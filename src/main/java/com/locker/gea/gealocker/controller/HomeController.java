@@ -27,12 +27,15 @@ public class HomeController {
     private LockerService lockerService;
 
     @GetMapping("/home")
-    public String home(HttpServletRequest request) {
+    public String home(HttpServletRequest request, Model model) {
         LinkedHashMap<String, Object> userData = (LinkedHashMap<String, Object>) request.getSession()
-                .getAttribute("user"); // Your LinkedHashMap
+                .getAttribute("user");
+
         User user = new User();
         user.setEmail((String) userData.get("email"));
         user.setNama((String) userData.get("nama"));
+        String welcome = "Welcome " + user.getNama();
+        model.addAttribute("username", welcome);
 
         if (user != null) {
             return "home/home";
